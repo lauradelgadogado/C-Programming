@@ -1,0 +1,97 @@
+# EXERCISE 1 - Vending Machine 
+
+#include <stdio.h>
+
+int main(void)
+{
+    char command;
+    char sugar;
+    char payment;
+    int coin = 0;
+    int temp_coin = 0;
+
+    printf("My first vending machine.\n");
+    
+    do
+    {
+    printf("Coffee or tea? (c/t/q) ");
+    scanf(" %c", &command);
+    printf("You entered: '%c'\n", command);
+    
+        switch(command)
+        {
+            case 'c':
+            printf("Coffee it is.\n");
+            printf("With sugar? (y\\n) ");
+            scanf(" %c", &sugar);
+            
+            if (sugar == 'n')
+            {
+                printf("You entered: '%c'\n", sugar);
+                printf("Pay with card.\n");
+                
+                do
+                {
+                    printf("Payment successful? (y\\n) ");
+                    scanf(" %c", &payment);
+                    
+                    if (payment == 'n')
+                    {
+                        printf("You entered: '%c'\n", payment);
+                        printf("Pay with card.\n");
+                    }
+                } while (payment != 'y');
+                
+                if (payment == 'y')
+                {
+                    printf("You entered: '%c'\n", payment);
+                    printf("Dispense coffee without sugar.\n");
+                    
+                }
+            }
+            
+            if (sugar == 'y')
+            {
+                printf("You entered: '%c'\n", sugar);
+                printf("Pay 2 euro with cash.\n");
+                
+                do
+                {
+                    printf("Coin inserted? (1/2) ");
+                    scanf(" %i", &coin);
+                    
+                    if (coin == 2)
+                    {
+                        printf("You entered: '%i'\n", coin);
+                        printf("Dispense coffee with sugar.\n");
+                    }
+                    
+                    if (coin == 1)
+                    {
+                        printf("You entered: '%i'\n", coin);
+                        printf("One more please.\n");
+                        printf("Coin inserted? (1/2) ");
+                        scanf(" %i", &temp_coin);
+                        coin = coin + temp_coin;
+                        
+                        printf("You entered: '%i'\n", temp_coin);
+                        printf("Dispense coffee with sugar.\n");
+                        
+                    }
+                } while (coin < 2);
+                
+            }
+            break;
+            
+            case 't':
+            printf("Dispense tea.\n");
+            break;
+        }
+    
+    }
+    while (command != 'q');
+    
+    printf("Bye!\n");
+    
+}
+
