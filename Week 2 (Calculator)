@@ -1,0 +1,110 @@
+# EXERCISE 2 - CALCULATOR
+
+#include <stdio.h>
+
+float absolute(int result)
+{
+    if (result < 0)
+        {
+            result = -1*result;
+        }
+    
+    return result;
+}
+
+int rounding(float a)
+{
+    if (a > 0)
+    {
+        int b = (int)(a+0.5);
+    }
+    
+    if (a < 0)
+    {
+        int b = (int)(a-0.5);
+    }
+}
+
+float power(float x, int y)
+{
+    float result = 1;
+    for (int i=0; i<y; i++)
+    {
+        result = result*x;
+    }
+    
+    if (y == 0)
+    {
+        return 1;
+    }
+    return result;
+}
+
+void main (void)
+{
+    char oper;
+    float result = 0;
+    int value = 0;
+    
+    printf("** Calculator **\n");
+    
+    do
+    {
+        printf("Operation? ");
+        scanf(" %c", &oper);
+    
+        switch(oper)
+        {
+            case '+':
+            printf("Value? ");
+            scanf(" %d", &value);
+            result = result + value;
+            printf("Input: %d\n", value);
+            printf("Result = %.2f\n", result);
+            break;
+            
+            case '-':
+            printf("Value? ");
+            scanf(" %d", &value);
+            result = result - value;
+            printf("Input: %d\n", value);
+            printf("Result = %.2f\n", result);
+            break;
+            
+            case '*':
+            printf("Value? ");
+            scanf(" %d", &value);
+            result = result * value;
+            printf("Input: %d\n", value);
+            printf("Result = %.2f\n", result);
+            break;
+            
+            case '/':
+            printf("Value? ");
+            scanf(" %d", &value);
+            result = result / value;
+            printf("Input: %d\n", value);
+            printf("Result = %.2f\n", result);
+            break;
+            
+            case 'a':
+            result = absolute(result);
+            printf("Result = %.2f\n", result);
+            break;
+            
+            case 'r':
+            result = rounding(result);
+            printf("Result = %.2f\n", result);
+            break;
+            
+            case 'p':
+            printf("Value? ");
+            scanf(" %d", &value);
+            printf("Input: %d\n", value);
+            result = power(result, value);
+            printf("Result = %.2f\n", result);
+            break;
+        }
+    } while (oper != '=');
+    printf("Result = %.2f\n", result);
+}
