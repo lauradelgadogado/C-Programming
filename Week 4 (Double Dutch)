@@ -1,0 +1,157 @@
+# EXERCISE 4 - DOUBLE DUTCH
+
+#include <stdio.h>
+#include <string.h>
+#define SIZE 256
+
+int findFirstOccurrence(char str[], char aChar)
+{
+    int found = 0;
+    for (int i=0; i < strlen(str); i++)
+    {
+        if (str[i] == aChar)
+        {
+            printf("'%c' found at index %i.\n", aChar, i);
+            found = 1;
+            break;
+        }
+    }
+    
+    if (found == 0)
+    {
+        printf("'%c' not found in string.\n", aChar);
+    }
+}
+
+void insertChar(char str[], char aChar, int index)
+{
+    int length = strlen(str);
+
+    for (int i = length; i >= index; i--)
+    {
+        str[i+1] = str[i];
+    }
+    str[index] = aChar;
+}
+
+void replaceChars(char str[], char sChar[], char rChar)
+{
+    for (int j=0; j < strlen(sChar); j++)
+    {
+        for (int i=0; i < strlen(str); i++)
+        {
+            if (str[i] == sChar[j])
+            {
+                str[i] = rChar;
+            }
+        }
+    }
+}
+
+void main(void)
+{
+    char command;
+    char firstocc;
+    char insert;
+    int index;
+    char myString[SIZE] = "charcharcharchar";
+    char rString[SIZE];
+    char replace;
+
+    printf("** Welcome to the Double Dutch game **\n");
+    
+    do
+    {
+        printf("Command? ");
+        scanf(" %c", &command);
+        
+        switch(command)
+        {
+            case 'p':
+            printf("String: %s\n", myString);
+            break;
+            
+            case 's':
+            printf("Please enter a string: ");
+            scanf(" %[^\n]s", myString);
+            break;
+            
+            case 'f':
+            printf("Please enter a character: ");
+            scanf(" %c", &firstocc);
+            findFirstOccurrence(myString, firstocc);
+            break;
+            
+            case 'i':
+            printf("Which character to insert: ");
+            scanf(" %c", &insert);
+            int length = strlen(myString);
+                
+            do
+            {
+                printf("At which position: ");
+                scanf(" %i", &index);
+            } while (index < 0 || index > length);
+            
+            insertChar(myString, insert, index);
+            break;
+            
+            case 'r':
+            printf("Which characters to replace: ");
+            scanf(" %[^\n]s", rString);
+            printf("Replace with character: ");
+            scanf(" %c", &replace);
+            
+            for (int i=0; i< strlen(rString); i++)
+            {
+                if (rString[i] == replace)
+                {
+                    printf("Replace with character: ");
+                    scanf(" %c", &replace);
+                    break;
+                }
+            }
+            
+            replaceChars(myString, rString, replace);
+            break;
+            
+            case 'g':
+            char vowels[] = {'a', 'e', 'i', 'o', 'u'};
+            replaceChars(myString, vowels, 'E');
+            //char white[] = {' '};
+            //replaceChars(myString, white, '-');
+            
+            for (int i=0; i < strlen(myString); i++)
+            {
+                if (myString[i] == ' ')
+                {
+                    myString[i] = '-';
+                    insertChar(myString, 'a', i+1);
+                    insertChar(myString, 'y', i+2);
+                    //i += 2;
+                }
+            }
+            break;
+            
+            /* do
+            {
+                p = findFirstOccurrence(myString, ' ');
+                
+                if (p == -1)
+                {
+                    break;
+                }
+                
+                myString[p] = '-';
+                
+                insertChar(myString, 'a', p+1);
+                insertChar(myString, 'y', p+2);
+            } while (1); */
+            
+        }
+        
+    } while (command != 'p');
+    
+    return;
+    
+}
