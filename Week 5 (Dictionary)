@@ -1,0 +1,206 @@
+# EXERCISE 5 - DICTIONARY
+
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+#define MAX_NUMBER_WORDS 10
+
+/* Do not modify the function safe_strcmp*/
+int safe_strcmp(char *str1, char *str2)
+{
+    if (str1 == NULL && str2 == NULL)
+        return 0;
+    else if (str1 == NULL && str2 != NULL)
+        return 1;
+    else if (str1 != NULL && str2 == NULL)
+        return -1;
+    else
+        return strcmp(str1, str2);
+}
+
+
+void printDict(char *dict[])
+{
+    printf("Dictionary:\n");
+    
+    for (int i=0; i < MAX_NUMBER_WORDS; i++)
+    {
+        if (dict[i] != NULL)
+        {
+            printf("- %s\n", dict[i]);
+        }
+        
+        else
+        {
+            printf("empty\n");
+        }
+    }
+}
+
+
+void addWord(char *dict[], char *word)
+{
+    int space = 0;
+            
+    for (int i=0; i < MAX_NUMBER_WORDS; i++)
+    {
+        if (dict[i] == NULL)
+        {
+            dict[i] = (char*)malloc(sizeof(char)*(strlen(word)+1));
+            strcpy(dict[i], word);
+            space = 1;
+            break;
+        }
+    }
+    
+    if (space == 0)
+        {
+            printf("Dictionary already full.\n");
+        }
+}
+
+int findWordInDict(char *dict[], char *word)
+{
+    int found = -1;
+    for (int i=0; i<MAX_NUMBER_WORDS; i++)
+    {
+        if (safe_strcmp(dict[i], word) == 0)
+        {
+            found = i;
+            break;
+        }
+    }
+    return(found);
+}
+
+void removeWord(char *dict[], char *word)
+{
+    int compare = 0;
+    for (int i=0; i<MAX_NUMBER_WORDS; i++)
+    {
+        compare = safe_strcmp(dict[i], word);
+        if (compare == 0)
+        {
+            dict[i] = NULL;
+            break;
+        }
+    }
+}
+
+
+void swapWords(char *dict[], int index1, int index2)
+{
+    if (index1 == -1 || index2 == -1)
+    {
+        printf("Cannot swap words. At least one word missing in the dictionary.\n");
+        return;
+    }
+    
+    char temp[100];
+    char temp2[100];
+    
+    strcpy(temp, dict[index1]);
+    strcpy(temp2, dict[index2]);
+    free(dict[index1]);
+    free(dict[index2]);
+    dict[index1] = (char*)malloc(sizeof(char)*(strlen(temp2)+1));
+    dict[index2] = (char*)malloc(sizeof(char)*(strlen(temp)+1));
+    strcpy(dict[index1], temp2);
+    strcpy(dict[index2], temp);
+}
+
+void orderAlphabeticalDict(char *dict[])
+{
+    int sorted;
+    do
+    {
+        sorted = 1;
+        for (int i=0; i<MAX_NUMBER_WORDS; i++)
+        {
+            if (dict[i] != NULL && dict[i+1] != NULL && strcmp(dict[i], dict[i+1]) > 0)
+            {
+                swapWords(dict, i, i+1);
+                sorted = 0;
+            }
+        }
+    } while (sorted == 0);
+}
+
+void main(void)
+{
+    char cmd;
+    char *dictionary[MAX_NUMBER_WORDS] = {NULL};
+    char word[100] = {};
+    char word2[100] = {};
+    
+    int index = 0;
+    int index2 = 0;
+
+    printf("** Dictionary **\n");
+    
+    do
+    {
+        printf("Command? ");
+        scanf(" %c", &cmd);
+        
+        switch(cmd)
+        {
+            case 'a':
+            printf("Add word? ");
+            scanf(" %s", word);
+            addWord(dictionary, word);
+            break;
+            
+            case 'p':
+            printDict(dictionary);
+            break;
+            
+            case 'f':
+            printf("Find word? ");
+            scanf(" %s", word);
+            index = findWordInDict(dictionary, word);
+            if (index != -1)
+            {
+                printf("Found word at index %d.\n", index);
+            }
+            
+            if (index == -1)
+            {
+                printf("Word not in dictionary.\n");
+            }
+            break;
+            
+            case 'r':
+            printf("Remove word? ");
+            scanf(" %s", word);
+            removeWord(dictionary, word);
+            break;
+            
+            case 's':
+            printf("Swap two words:\n");
+            printf("Enter first word? ");
+            scanf(" %s", word);
+            index = findWordInDict(dictionary, word);
+            printf("Enter second word? ");
+            scanf(" %s", word2);
+            index2 = findWordInDict(dictionary, word2);
+            swapWords(dictionary, index, index2);
+            break;
+            
+            case 'o':
+            orderAlphabeticalDict(dictionary);
+            break;
+            
+        }
+    } while (cmd != 'q');
+    
+    for (int i=0; i < MAX_NUMBER_WORDS; i++)
+    {
+        if (dictionary[i] != NULL)
+        {
+            free(dictionary[i]);
+        }
+    }
+    return;
+}
