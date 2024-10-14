@@ -1,0 +1,141 @@
+# EXERCISE 3 - SORTING
+
+#include <stdio.h>
+#define SIZE 10
+
+void printValues(float values[], int size)
+{
+    printf("Values:");
+    
+    for (int i=0; i<SIZE; i++)
+    {
+        if (i != 0)
+        {
+            printf(",");
+        }
+        printf(" %.3f", values[i]);
+    }
+    printf("\n");
+}
+
+int findLastIndexOfValue(float values[], int size, float v)
+{
+    int i;
+    int found=0;
+    
+    for (i = SIZE - 1; i>= 0; i--)
+    {
+        if (values[i] == v)
+        {
+            printf("Value found at index %d in array.\n", i);
+            found = 1;
+            break;
+        }
+    }
+    
+    if (found == 0)
+    {
+        printf("Value not found in array!\n");
+    }
+}
+
+float maxElement(float values[], int size)
+{
+    float max = values[0];
+    
+    for (int i=0; i<SIZE; i++)
+    {
+        if (values[i] > max)
+        {
+            max = values[i];
+        }
+    }
+    
+    printf("Max: %.3f\n", max);
+}
+
+void replaceElement(float values[], int i, float v)
+{
+    values[i] = v;
+}
+
+void sortOnValue(float values[], int size)
+{
+    float temp;
+    int swap;
+
+    do
+    {
+        swap = 0;
+        for (int i=0; i<SIZE-1; i++)
+        {
+            if (values[i] > values[i+1])
+            {
+                temp = values[i];
+                values[i] = values[i+1];
+                values[i+1] = temp;
+                swap = 1;
+            }
+            
+        }
+    } while (swap != 0);
+    return;
+}
+
+void main(void)
+{
+    char command;
+    float value;
+    int index;
+
+    float val[SIZE] = {1.5, 2.2, 7.3, 9.2, 7.4, 7.5, -8.0, 1.5, 12}; 
+    
+    do
+    {
+        printf("Command? ");
+        scanf(" %c", &command);
+        
+        switch(command)
+        {
+            case 'p':
+            printValues(val, SIZE);
+            break;
+            
+            case 'f':
+            printf("Find Value: ");
+            scanf(" %f", &value);
+            findLastIndexOfValue(val, SIZE, value);
+            break;
+            
+            case 'm':
+            maxElement(val, 10);
+            break;
+            
+            case 'r':
+            do
+            {
+                printf("Replace (index): ");
+                scanf(" %d", &index);
+                
+                if (index < 0 || index >= SIZE)
+                {
+                    printf("Error: index exceeds bound of array.\n");
+                }
+            } while (index < 0 || index >= SIZE);
+            
+            printf("Replace (value): ");
+            scanf(" %f", &value);
+            replaceElement(val, index, value);
+            break;
+            
+            case 's':
+            sortOnValue(val, SIZE);
+            break;
+            
+        }
+        
+    } while (command != 'q');
+    
+    return;
+    
+}
