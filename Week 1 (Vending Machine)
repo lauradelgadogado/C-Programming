@@ -1,5 +1,7 @@
 # EXERCISE 1 - VENDING MACHINE
 
+// FIRST ATTEMPT
+
 #include <stdio.h>
 
 int main(void)
@@ -93,5 +95,80 @@ int main(void)
     
     printf("Bye!\n");
     
+}
+
+
+// SECOND ATTEMPT
+
+#include <stdio.h>
+
+int main(void)
+{
+    char cmd;
+    char sugar;
+    char pay;
+    int coin;
+    int temp_coin;
+    
+    printf("My first vending machine.\n");
+    
+    do
+    {
+        printf("Coffee or tea? (c/t/q) ");
+        scanf(" %c", &cmd);
+        printf("You entered: '%c'\n", cmd);
+        
+        switch(cmd)
+        {
+            case 't':
+            printf("Dispense tea.\n");
+            break;
+            
+            case 'c':
+            printf("Coffee it is.\n");
+            printf("With sugar? (y/n) ");
+            scanf(" %c", &sugar);
+            printf("You entered: '%c'\n", sugar);
+
+            if (sugar == 'n')
+            {
+                do
+                {
+                    printf("Pay with card.\n");
+                    printf("Payment successful? (y/n) ");
+                    scanf(" %c", &pay);
+                    printf("You entered: '%c'\n", pay);
+                } while (pay != 'y');
+                
+                printf("Dispense coffee without sugar.\n");
+            }
+            
+            if (sugar == 'y')
+            {
+                printf("Pay 2 euro with cash.\n");
+                
+                do
+                {
+                    printf("Coin inserted? (1/2) ");
+                    scanf(" %i", &coin);
+                    printf("You entered: '%i'\n", coin);
+                    
+                    if (coin == 1)
+                    {
+                        printf("One more please.");
+                        printf("Coin inserted? (1/2) ");
+                        scanf(" %i", &temp_coin);
+                        printf("You entered: '%i'\n", temp_coin);
+                        coin = coin + temp_coin;
+                    }
+                    
+                } while (coin < 2);
+                printf("Dispense coffee with sugar.\n");
+            }
+            
+        }
+    } while (cmd != 'q');
+    
+    printf("Bye!\n");
 }
 
