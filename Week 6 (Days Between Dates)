@@ -1,0 +1,61 @@
+Week 6
+
+#include <stdio.h>
+
+struct date_t 
+{
+    int day;
+    int month;
+    int year;
+};
+
+void main(void) 
+{
+    // Declare variables to store two dates
+    struct date_t date1, date2;
+    int days = 0;
+    //int difference;
+    int months[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    
+    // Input details for the first date
+    printf("Date 1 (day month year): ");
+    scanf("%d %d %d", &date1.day, &date1.month, &date1.year);
+
+    // Input details for the second date
+    printf("Date 2 (day month year): ");
+    scanf("%d %d %d", &date2.day, &date2.month, &date2.year);
+
+    // Calculate the difference in days between the two dates
+    // Put your own code here
+    date1.month--;
+    for (int i=date1.day; i<months[date1.month-1]; i++)
+    {
+        days++;
+        printf("Days so far: %i (index %i)\n", days, i);
+    }
+    date1.month++;
+
+    for (int j=date1.month; j<12; j++)
+    {
+        days = days + months[j];
+        printf("Days so far: %i (index %i)\n", days, j);
+    }
+    date1.year++;
+    days = days + (date2.year - date1.year)*365;
+    
+    for (int k=0; k<date2.day; k++)
+    {
+        days++;
+        printf("Days so far: %i (index %i)\n", days, k);
+    }
+    
+    for (int l=0; l<date2.month; l++)
+    {
+        days = days + months[l];
+        printf("Days so far: %i (index %i)\n", days, l);
+    }
+    
+    // Output the difference
+    printf("Difference in days: %d\n", days);
+}
+
