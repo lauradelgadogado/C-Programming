@@ -63,6 +63,7 @@ DELIVERY TASK
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 #define MAX_NR_PACKAGES_ON_ROUTE 5
 
 struct package_t
@@ -72,6 +73,7 @@ struct package_t
     char *label;
 };
 
+
 void printRoute(struct package_t *route[])
 {
     printf("Route:\n");
@@ -80,7 +82,7 @@ void printRoute(struct package_t *route[])
     {
         if (route[i] != NULL)
         {
-            printf("%s: %.1f %.1f\n", route[i]->label, route[i]->loc_x,  route[i]->loc_y);
+            printf("%s: %.1f, %.1f\n", route[i]->label, route[i]->loc_x, route[i]->loc_y);
         }
     }
 }
@@ -94,19 +96,21 @@ void addPackage(struct package_t *route[], float x, float y, char *label)
     {
         if (route[i] == NULL)
         {
-            route[i] = (struct package_t*)malloc(sizeof(struct package_t));
+            route[i] = (struct package_t *)malloc(sizeof(struct package_t));
+            route[i]->label = (char *)malloc(strlen(label)+1);
+            strcpy(route[i]->label, label);
             route[i]->loc_x = x;
             route[i]->loc_y = y;
-            route[i]->label = strdup(label);
             space = 1;
             break;
         }
     }
     
-    if (space != 1)
+    if (space == 0)
     {
         printf("Package not added. Route is full!\n");
     }
+    
 }
 
 
@@ -114,13 +118,14 @@ int findPackage(struct package_t *route[], char *label)
 {
     for (int i=0; i<MAX_NR_PACKAGES_ON_ROUTE; i++)
     {
-        if (route[i] != NULL && strcmp(route[i]->label,label) == 0)
+        if (route[i] != NULL && strcmp(route[i]->label, label) == 0)
         {
             return i;
         }
     }
     return -1;
 }
+
 
 
 void removePackage(struct package_t *route[], char *label)
@@ -138,25 +143,96 @@ void removePackage(struct package_t *route[], char *label)
 
 void swapPackages(struct package_t *route[], int p1, int p2)
 {
-    
+    if (route[p1] != NULL && route[p2] != NULL)
+    {
+        struct package_t *temp = route[p1];
+        route[p1] = route[p2];
+        route[p2] = temp;
+    }
 }
+
+float computeDistanceBetweenLocations(struct package_t *a, struct package_t *b)
+{
+    if (a != NULL && b != NULL)
+    {
+        float distance = sqrt((a->loc_x - b->loc_x)*(a->loc_x - b->loc_x) + (a->loc_y - b->loc_y)*(a->loc_y - b->loc_y));
+        return distance;
+    }
+    
+    return -1;
+}
+
+
+float computeDistanceOfRoute(struct package_t *route[])
+{
+    
+    float distance = 0;
+    struct package_t origin = {0, 0, "Origin"};
+    
+    if (route[0] != NULL)
+    {
+        distance = computeDistanceBetweenLocations(&origin, route[0]);
+    }
+    
+    for (int i=0; i<MAX_NR_PACKAGES_ON_ROUTE-1; i++)
+    {
+        if (route[i] != NULL && route[i+1] != NULL)
+        {
+            distance += computeDistanceBetweenLocations(route[i], route[i+1]);
+        }
+    }
+    return distance;
+}
+
+
+// REDO THIS PART PLEASE
+void orderPackagesOnDistanceOfRoute(struct package_t *route[])
+{
+    struct package_t origin = {0, 0, "Origin"};
+
+    for (int i = 0; i < MAX_NR_PACKAGES_ON_ROUTE - 1; i++)
+    {
+        for (int j = i + 1; j < MAX_NR_PACKAGES_ON_ROUTE; j++)
+        {
+            // Skip NULL entries
+            if (route[i] == NULL || route[j] == NULL)
+            {
+                continue;
+            }
+
+            float dist1 = computeDistanceBetweenLocations(&origin, route[i]);
+            float dist2 = computeDistanceBetweenLocations(&origin, route[j]);
+
+            // Swap if route[i] is farther than route[j]
+            if (dist1 > dist2)
+            {
+                struct package_t *temp = route[i];
+                route[i] = route[j];
+                route[j] = temp;
+            }
+        }
+    }
+}
+
 
 
 void main(void)
 {
-    char cmd;
-    float x, y;
-    char label[256];
-    char label_2[256];
+    char c;
     struct package_t *route[MAX_NR_PACKAGES_ON_ROUTE] = {NULL};
+    char label[100];
+    char label2[100];
+    float x, y;
+    int index, index2;
     
     printf("** Delivery route **\n");
+    
     do
     {
         printf("Command? ");
-        scanf(" %c", &cmd);
+        scanf(" %c", &c);
         
-        switch(cmd)
+        switch(c)
         {
             case 'p':
             printRoute(route);
@@ -167,32 +243,55 @@ void main(void)
             printf("Coordinate x y? ");
             scanf(" %f %f", &x, &y);
             printf("Label? ");
-            scanf(" %[^\n]", label);
+            scanf(" %[^\n]s", label);
             addPackage(route, x, y, label);
             break;
             
             case 'r':
             printf("Remove package\n");
             printf("Label? ");
-            scanf(" %[^\n]", label);
+            scanf(" %[^\n]s", label);
             removePackage(route, label);
             break;
             
-            /*
-            case 'f':
-            printf("Label? ");
-            scanf(" %[^\n]", label);
-            int index = findPackage(route, label);
-            printf("%s is at index %i\n", label, index);
-            break;
-            */
-            
             case 's':
             printf("Swap packages\n");
+            do
+            {
+                printf("Label 1? ");
+                scanf(" %[^\n]s", label);
+                index = findPackage(route, label);
+            }
+            while (index == -1);
+            do
+            {
+                printf("Label 2? ");
+                scanf(" %[^\n]s", label2);
+                index2 = findPackage(route, label2);
+            }
+            while (index2 == -1);
+            swapPackages(route, index, index2);
+            break;
+            
+            case 'd':
+            printf("Distance: %.1f\n", computeDistanceOfRoute(route));
+            break;
+            
+            case 'o':
+            orderPackagesOnDistanceOfRoute(route);
+            printf("Packages reordered by distance from the origin.\n");
+            break;
+            
+            case 'm':
+            struct package_t p1 = {0, 0, "Point A"};
+            struct package_t p2 = {3, 4, "Point B"};
+            printf("Distance: %.2f\n", computeDistanceBetweenLocations(&p1, &p2));
+            break;
             
         }
         
-    } while (cmd != 'q');
+    }
+    while (c != 'q');
     
     for (int i=0; i<MAX_NR_PACKAGES_ON_ROUTE; i++)
     {
@@ -203,8 +302,3 @@ void main(void)
         }
     }
 }
-    
-    // Output the difference
-    printf("Difference in days: %d\n", days);
-}
-
