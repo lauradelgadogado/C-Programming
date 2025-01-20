@@ -54,6 +54,155 @@ void main(void)
         days = days + months[l];
         printf("Days so far: %i (index %i)\n", days, l);
     }
+
+
+
+
+DELIVERY TASK
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#define MAX_NR_PACKAGES_ON_ROUTE 5
+
+struct package_t
+{
+    float loc_x;
+    float loc_y;
+    char *label;
+};
+
+void printRoute(struct package_t *route[])
+{
+    printf("Route:\n");
+    
+    for (int i=0; i<MAX_NR_PACKAGES_ON_ROUTE; i++)
+    {
+        if (route[i] != NULL)
+        {
+            printf("%s: %.1f %.1f\n", route[i]->label, route[i]->loc_x,  route[i]->loc_y);
+        }
+    }
+}
+
+
+void addPackage(struct package_t *route[], float x, float y, char *label)
+{
+    int space = 0;
+    
+    for (int i=0; i<MAX_NR_PACKAGES_ON_ROUTE; i++)
+    {
+        if (route[i] == NULL)
+        {
+            route[i] = (struct package_t*)malloc(sizeof(struct package_t));
+            route[i]->loc_x = x;
+            route[i]->loc_y = y;
+            route[i]->label = strdup(label);
+            space = 1;
+            break;
+        }
+    }
+    
+    if (space != 1)
+    {
+        printf("Package not added. Route is full!\n");
+    }
+}
+
+
+int findPackage(struct package_t *route[], char *label)
+{
+    for (int i=0; i<MAX_NR_PACKAGES_ON_ROUTE; i++)
+    {
+        if (route[i] != NULL && strcmp(route[i]->label,label) == 0)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+
+void removePackage(struct package_t *route[], char *label)
+{
+    int index = findPackage(route, label);
+    
+    if (index != -1)
+    {
+        free(route[index]->label);
+        free(route[index]);
+        route[index] = NULL;
+    }
+}
+
+
+void swapPackages(struct package_t *route[], int p1, int p2)
+{
+    
+}
+
+
+void main(void)
+{
+    char cmd;
+    float x, y;
+    char label[256];
+    char label_2[256];
+    struct package_t *route[MAX_NR_PACKAGES_ON_ROUTE] = {NULL};
+    
+    printf("** Delivery route **\n");
+    do
+    {
+        printf("Command? ");
+        scanf(" %c", &cmd);
+        
+        switch(cmd)
+        {
+            case 'p':
+            printRoute(route);
+            break;
+            
+            case 'a':
+            printf("Add package\n");
+            printf("Coordinate x y? ");
+            scanf(" %f %f", &x, &y);
+            printf("Label? ");
+            scanf(" %[^\n]", label);
+            addPackage(route, x, y, label);
+            break;
+            
+            case 'r':
+            printf("Remove package\n");
+            printf("Label? ");
+            scanf(" %[^\n]", label);
+            removePackage(route, label);
+            break;
+            
+            /*
+            case 'f':
+            printf("Label? ");
+            scanf(" %[^\n]", label);
+            int index = findPackage(route, label);
+            printf("%s is at index %i\n", label, index);
+            break;
+            */
+            
+            case 's':
+            printf("Swap packages\n");
+            
+        }
+        
+    } while (cmd != 'q');
+    
+    for (int i=0; i<MAX_NR_PACKAGES_ON_ROUTE; i++)
+    {
+        if (route[i] != NULL)
+        {
+            free(route[i]->label);
+            free(route[i]);
+        }
+    }
+}
     
     // Output the difference
     printf("Difference in days: %d\n", days);
