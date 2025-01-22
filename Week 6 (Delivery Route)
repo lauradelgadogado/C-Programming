@@ -1,5 +1,5 @@
 EXERCISE 6.2 - DAYS BETWEEN DATES
-/////////////////////////////////
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 #include <stdio.h>
 
@@ -59,7 +59,7 @@ void main(void)
 
 
 PROGRAMMING LAB - DELIVERY ROUTE
-////////////////////////////////
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 #include <stdio.h>
 #include <stdlib.h>
