@@ -1,4 +1,5 @@
-Week 6
+EXERCISE 6.2 - DAYS BETWEEN DATES
+/////////////////////////////////
 
 #include <stdio.h>
 
@@ -57,8 +58,8 @@ void main(void)
 
 
 
-
-DELIVERY TASK
+PROGRAMMING LAB - DELIVERY ROUTE
+////////////////////////////////
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -185,35 +186,31 @@ float computeDistanceOfRoute(struct package_t *route[])
 }
 
 
-// REDO THIS PART PLEASE
 void orderPackagesOnDistanceOfRoute(struct package_t *route[])
 {
+    int sorted;
     struct package_t origin = {0, 0, "Origin"};
-
-    for (int i = 0; i < MAX_NR_PACKAGES_ON_ROUTE - 1; i++)
+    
+    do
     {
-        for (int j = i + 1; j < MAX_NR_PACKAGES_ON_ROUTE; j++)
+        sorted = 0;
+        for (int i=0; i<MAX_NR_PACKAGES_ON_ROUTE-1; i++)
         {
-            // Skip NULL entries
-            if (route[i] == NULL || route[j] == NULL)
+            if (route[i] != NULL && route[i+1] != NULL)
             {
-                continue;
-            }
-
-            float dist1 = computeDistanceBetweenLocations(&origin, route[i]);
-            float dist2 = computeDistanceBetweenLocations(&origin, route[j]);
-
-            // Swap if route[i] is farther than route[j]
-            if (dist1 > dist2)
-            {
-                struct package_t *temp = route[i];
-                route[i] = route[j];
-                route[j] = temp;
+                float distance1 = computeDistanceBetweenLocations(&origin, route[i]);
+                float distance2 = computeDistanceBetweenLocations(&origin, route[i+1]);
+                
+                if (distance1 > distance2)
+                {
+                    swapPackages(route, i, i+1);
+                    sorted = 1;
+                }
             }
         }
     }
+    while (sorted != 0);
 }
-
 
 
 void main(void)
@@ -278,8 +275,8 @@ void main(void)
             break;
             
             case 'o':
+            printf("Order route\n");
             orderPackagesOnDistanceOfRoute(route);
-            printf("Packages reordered by distance from the origin.\n");
             break;
             
             case 'm':
