@@ -1,5 +1,5 @@
 EXERCISE 7.1 - POSITIVE POWER
-/////////////////////////////
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 #include <stdio.h>
 
@@ -52,7 +52,7 @@ void main(void)
 
 
 EXERCISE 7.2 - STRING END COMPARE
-/////////////////////////////////
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 #include <stdio.h>
 #include <string.h>
@@ -80,6 +80,9 @@ void main(void)
 }
 
 
+
+PROGRAMMING LAB - TRAIN STATIONS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
