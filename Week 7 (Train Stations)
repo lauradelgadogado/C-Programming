@@ -1,0 +1,85 @@
+EXERCISE 7.1 - POSITIVE POWER
+/////////////////////////////
+
+#include <stdio.h>
+
+/* USING LOOP
+int power(int x, int y)
+{
+    int result = 1;
+    if (y == 0)
+    {
+        return 1;
+    }
+    
+    else
+    {
+        for (int i=0; i<y; i++)
+        {
+            result = x * result;
+        }
+        return result;
+    }
+}
+*/
+
+int power(int x, int y)  // USING RECURSION
+{
+    if (y == 0) // BASE CASE
+    {
+        return 1;
+    }
+    else // RECURSIVE CASE
+    {
+        return x * power(x, y - 1);
+    }
+}
+
+void main(void)
+{
+    int x, y, result;
+    
+    printf("Base number? ");
+    scanf(" %d", &x);
+    
+    printf("Power number (positive integer): ");
+    scanf(" %d", &y);
+    
+    result = power(x, y);
+    
+    printf("Result: %d^%d = %d", x, y, result);
+}
+
+
+EXERCISE 7.2 - STRING END COMPARE
+/////////////////////////////////
+
+#include <stdio.h>
+#include <string.h>
+
+int strend(char s1[], char s2[])
+{
+    // Put your own code here
+}
+
+void main(void)
+{
+    char s1[100];
+    char s2[100];
+    
+    printf("String 1? ");
+    scanf(" %[^\n]s", s1);
+    printf("String 2? ");
+    scanf(" %[^\n]s", s2);
+    
+    if (strend(s1, s2) == 1)
+        printf("'%s' ends with '%s'\n", s1, s2);
+    else
+        printf("'%s' not at the end of '%s'\n", s2, s1);
+        
+}
+
+
+
+
+
