@@ -1,4 +1,122 @@
-# EXERCISE 5 - DICTIONARY
+EXERICSE 5.1 - FREQUENCY OF CHARACTERS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+#include <stdio.h>
+#include <string.h>
+
+void CharacterOccurrence(char sentence[])
+{
+    int counter[] = {0};
+    
+    for (int i=0; sentence[i] != '\0'; i++)
+    {
+        counter[(unsigned char)sentence[i]]++;
+    }
+    
+    for (int i=0; i < 256; i++)
+    {
+        if (counter[i] > 0)
+        {
+            printf("'%c' (%d): %d\n", i, i, counter[i]);
+        }
+    }
+}
+
+void main(void)
+{
+    char sentence[2048];
+
+    printf("Input: ");
+    scanf(" %[^\n]s", sentence);
+    CharacterOccurrence(sentence);
+    
+}
+
+
+EXERCISE 5.2 - SWAP WORD IN LEXICOGRAPHICAL ORDER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+void SortWords(char **word1, char **word2)
+{
+    if (strcmp(*word1, *word2) > 0)
+    {
+        char *temp = *word1;
+        *word1 = *word2;
+        *word2 = temp;
+    }
+}
+
+void main(void)
+{
+    char *word1 = (char*)malloc(256);
+    char *word2 = (char*)malloc(256);
+
+    printf("Input two words: ");
+    scanf(" %s %s", word1, word2);
+    SortWords(&word1, &word2);
+    printf("Ordered: %s %s\n", word1, word2);
+    
+    free(word1);
+    free(word2);
+}
+
+
+EXERCISE 5.3 - AVERAGE OF SERIES OF NUMBERS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+#include <stdio.h>
+#include <stdlib.h>
+
+void main(void)
+{
+    float average;
+    int *numbers;
+    int i;
+    int n;
+    int sum = 0;
+    
+    printf("How many numbers in series? ");
+    scanf(" %d", &n);
+    
+    // Write your own code here:
+    // 1) allocate memory for an array of numbers to hold n integers,
+    numbers = (int*)malloc(n*sizeof(int));
+    // 2) subsequently read them from the input into an array numbers,
+    for (i = 0; i < n; i++)
+    {
+        printf("Number %d? ", i);
+        scanf(" %d", &numbers[i]);
+    }
+    // 3) and computer the average of the numbers in the array
+    for (i = 0; i < n; i++)
+    {
+        sum += numbers[i];
+    }
+    
+    average = (float)sum / n;
+
+
+    for (i = 0; i < n; i++)
+    {
+        if (i == 0)
+            printf("( ");
+        else
+            printf(" + ");
+            
+        printf("%d", numbers[i]);
+    }
+    printf(" ) / %d = %.1f", n, average);
+    
+    free(numbers);
+}
+
+
+PROGRAMMING LAB 5 - DICTIONARY
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 #include <stdio.h>
 #include <string.h>
