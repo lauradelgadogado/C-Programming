@@ -79,6 +79,16 @@ void main(void)
         
 }
 
+%%%%%%%%%%%%%%
+%% THE TASK %%
+%%%%%%%%%%%%%%
+The program asks the user inside the main function to input two strings s1 and s2. The function strend is then used to check whether the string s1 ends with the string s2. If so, the function strned should return the value 1. Otherwise, it should return 0. Implement this functionality in the strend function.
+
+The output of your program should look as follows:
+
+String 1? This is a story
+String 2? story
+'This is a story' ends with 'story'
 
 
 PROGRAMMING LAB - TRAIN STATIONS
