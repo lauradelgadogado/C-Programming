@@ -59,7 +59,19 @@ EXERCISE 7.2 - STRING END COMPARE
 
 int strend(char s1[], char s2[])
 {
-    // Put your own code here
+    int len1 = strlen(s1);
+    int len2 = strlen(s2);
+    int marker = len1 - len2;
+    
+    for (int i = 0; i < len2; i++) 
+    {
+        if (s1[marker + i] != s2[i])
+        {
+            return 0;
+        }
+    }
+
+    return 1;
 }
 
 void main(void)
@@ -79,20 +91,262 @@ void main(void)
         
 }
 
-%%%%%%%%%%%%%%
-%% THE TASK %%
-%%%%%%%%%%%%%%
-The program asks the user inside the main function to input two strings s1 and s2. The function strend is then used to check whether the string s1 ends with the string s2. If so, the function strned should return the value 1. Otherwise, it should return 0. Implement this functionality in the strend function.
-
-The output of your program should look as follows:
-
-String 1? This is a story
-String 2? story
-'This is a story' ends with 'story'
-
 
 PROGRAMMING LAB - TRAIN STATIONS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#define MAX_NUMBER_STATIONS 5
+
+struct station_t
+{
+    char *name;
+    char *destinations[MAX_NUMBER_STATIONS];
+};
 
 
+void printStations(struct station_t *stations[])
+{
+    printf("Stations:\n");
+    
+    for (int i=0; i<MAX_NUMBER_STATIONS; i++)
+    {
+        if (stations[i] != NULL)
+        {
+            printf("%s:\n", stations[i]->name);
+            
+            for (int j=0; j<MAX_NUMBER_STATIONS; j++)
+            {
+                if (stations[i]->destinations[j] != NULL)
+                {
+                    printf("- %s\n", stations[i]->destinations[j]);
+                }
+            }
+        }
+    }
+}
+
+
+int findStation(struct station_t *stations[], char *name)
+{
+    for (int i=0; i<MAX_NUMBER_STATIONS; i++)
+    {
+        if (stations[i] != NULL && strcmp(stations[i]->name, name) == 0)
+        {
+            return i;
+        }
+    }
+    
+    return -1;
+}
+
+
+void addStation(struct station_t *stations[], char *name)
+{
+    int space = 0;
+    int found = findStation(stations, name);
+    
+    if (found > -1)
+    {
+        printf("Station '%s' already known.\n", name);
+        return;
+    }
+    
+    for (int i=0; i<MAX_NUMBER_STATIONS; i++)
+    {
+        if (stations[i] == NULL)
+        {
+            stations[i] = (struct station_t *)malloc(sizeof(struct station_t));
+            stations[i]->name = (char *)malloc(strlen(name)+1);
+            strcpy(stations[i]->name, name);
+            space = 1;
+            break;
+        }
+    }
+    
+    if (space == 0)
+    {
+        printf("Station '%s' not added. No space left.\n", name);
+    }
+}
+
+
+void addDestination(struct station_t *stations[], char *station1, char *station2)
+{
+    int index1 = findStation(stations, station1);
+    int index2 = findStation(stations, station2);
+    
+    if (index1 < 0 || index2 < 0)
+    {
+        printf("Station missing. No destination added.\n");
+        return;
+    }
+    
+    for (int i=0; i<MAX_NUMBER_STATIONS; i++)
+    {
+        if (stations[index1]->destinations[i] == NULL)
+        {
+            stations[index1]->destinations[i] = (char *)malloc(strlen(station2)+1);
+            strcpy(stations[index1]->destinations[i], station2);
+            break;
+        }
+    }
+    
+    for (int i=0; i<MAX_NUMBER_STATIONS; i++)
+    {
+        if (stations[index2]->destinations[i] == NULL)
+        {
+            stations[index2]->destinations[i] = (char *)malloc(strlen(station1)+1);
+            strcpy(stations[index2]->destinations[i], station1);
+            break;
+        }
+    }
+}
+
+
+void removeStation(struct station_t *stations[], char *name)
+{
+    int index = findStation(stations, name);
+    
+    if (index < 0)
+    {
+        printf("Station '%s' does not exist.\n", name);
+        return;
+    }
+    
+    else
+    {
+        for (int i=0; i<MAX_NUMBER_STATIONS; i++)
+        {
+            if (stations[index]->destinations[i] != NULL)
+            {
+                free(stations[index]->destinations[i]);
+                stations[index]->destinations[i] = NULL;
+            }
+            
+            if (stations[i] != NULL)
+            {
+                for (int j=0; j<MAX_NUMBER_STATIONS; j++)
+                {
+                    if (stations[i]->destinations[j] != NULL && strcmp(stations[i]->destinations[j], name) == 0)
+                    {
+                        free(stations[i]->destinations[j]);
+                        stations[i]->destinations[j] = NULL;
+                    }
+                }
+            }
+        }
+        free(stations[index]->name);
+        free(stations[index]);
+        stations[index] = NULL;
+    }
+}
+
+
+int checkStationsConnected(struct station_t *stations[], char *station1, char *station2, int hops)
+{
+    if (strcmp(station1, station2) == 0)
+    {
+        return 1;
+    }
+    
+    if (hops == 0)
+    {
+        return 0;
+    }
+    
+    int index = findStation(stations, station1);
+    
+    if (index < 0)
+    {
+        return 0;
+    }
+    
+    for (int i=0; i<MAX_NUMBER_STATIONS; i++)
+    {
+        if (stations[index]->destinations[i] != NULL && checkStationsConnected(stations, stations[index]->destinations[i], station2, hops - 1))
+        {
+            return 1;
+        }
+    }
+}
+
+
+void main(void)
+{
+    char c;
+    struct station_t *stations[MAX_NUMBER_STATIONS] = {NULL};
+    char name[100];
+    char name2[100];
+    
+    printf("** Stations **\n");
+    do
+    {
+        printf("Command? ");
+        scanf(" %c", &c);
+        
+        switch(c)
+        {
+            case 'p':
+            printStations(stations);
+            break;
+            
+            case 'a':
+            printf("Add station? ");
+            scanf(" %[^\n]s", name);
+            addStation(stations, name);
+            break;
+            
+            case 'd':
+            printf("Add destination.\n");
+            printf(" Station1? ");
+            scanf(" %[^\n]s", name);
+            printf(" Station2? ");
+            scanf(" %[^\n]s", name2);
+            addDestination(stations, name, name2);
+            break;
+            
+            case 'r':
+            printf("Remove station? ");
+            scanf(" %[^\n]s", name);
+            removeStation(stations, name);
+            break;
+            
+            case 'c':
+            printf("Check connection.\n");
+            printf(" Station1? ");
+            scanf(" %[^\n]s", name);
+            printf(" Station2? ");
+            scanf(" %[^\n]s", name2);
+            int check = checkStationsConnected(stations, name, name2, MAX_NUMBER_STATIONS-1);
+            if (check == 1)
+            {
+                printf("Connected!\n");
+            }
+            else
+            {
+                printf("Not connected!\n");
+            }
+            break;
+            
+        }
+    }
+    while (c != 'q');
+    for (int i=0; i<MAX_NUMBER_STATIONS; i++)
+    {
+        if (stations[i] != NULL)
+        {
+            for (int j = 0; j < MAX_NUMBER_STATIONS; j++)
+            {
+                if (stations[i]->destinations[j] != NULL)
+                {
+                    free(stations[i]->destinations[j]);
+                }
+            }
+            free(stations[i]->name);
+            free(stations[i]);
+        }
+    }
+}
