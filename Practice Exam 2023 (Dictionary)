@@ -1,0 +1,213 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#define MAXWORDS 10
+#define MAXLENGTH 30
+
+
+int nrWords(char *dict[])
+{
+    int number = 0;
+    
+    for (int i=0; i<MAXWORDS; i++)
+    {
+        if (dict[i] != NULL)
+        {
+            number++;
+        }
+    }
+    return number;
+}
+
+void addWord(char *dict[], char word[])
+{
+    for (int i=0; i<MAXWORDS; i++)
+    {
+        if (dict[i] == NULL)
+        {
+            dict[i] = (char *)malloc(sizeof(strlen(word)+1));
+            strcpy(dict[i], word);
+            break;
+        }
+    }
+}
+
+
+void printDict(char *dict[])
+{
+    if (nrWords(dict) == 0)
+    {
+        printf("The dictionary is empty\n");
+        return;
+    }
+    
+    printf("Dictionary:\n");
+    
+    for (int i=0; i<MAXWORDS; i++)
+    {
+        if (dict[i] != NULL)
+        {
+            printf(" %i - %s\n", i, dict[i]);
+        }
+    }
+}
+
+
+int findWord(char *dict[], char word[])
+{
+    for (int i=0; i<MAXWORDS; i++)
+    {
+        if (dict[i] != NULL && strcmp(dict[i], word) == 0)
+        {
+            return i;
+        }
+    }
+    
+    return -1;
+}
+
+
+void removeWord(char *dict[], char word[])
+{
+    int index = findWord(dict, word);
+    
+    if (index < 0)
+    {
+        printf("\"%s\" is not in the dictionary\n");
+        return;
+    }
+    
+    free(dict[index]);
+    dict[index] = NULL;
+    
+    for (int i=index; i<MAXWORDS-1; i++)
+    {
+        dict[i] = dict[i+1];
+    }
+}
+
+
+void swapWords(char *dict[], char word1[], char word2[])
+{
+    int index = findWord(dict, word1);
+    int index2 = findWord(dict, word2);
+    
+    if (index < 0 || index2 < 0)
+    {
+        printf("Cannot swap words\n");
+        return;
+    }
+    
+    if (dict[index] != NULL && dict[index2] != NULL)
+    {
+        char *temp = dict[index];
+        dict[index] = dict[index2];
+        dict[index2] = temp;
+    }
+}
+
+
+int longestWord(char *dict[], int to)
+{
+    if (to < 0 || to >= MAXWORDS || dict[0] == NULL)
+    {
+            return -1;
+    }
+    
+    int max_length = -1;  // To track the length of the longest word
+    int max_index = -1;   // To track the index of the longest word
+    
+    for (int i = 0; i <= to; i++)
+    {
+        if (dict[i] != NULL)
+        {
+            int length = strlen(dict[i]);
+    
+            if (length > max_length || (length == max_length && strcmp(dict[i], dict[max_index]) > 0))
+            {
+                max_length = length;
+                max_index = i;
+            }
+        }
+    }
+    
+    return max_index; 
+}
+
+
+void main(void)
+{
+    char c;
+    char *dict[MAXWORDS] = {NULL};
+    char word[MAXLENGTH];
+    char word2[MAXLENGTH];
+    
+    do
+    {
+        printf("Command? ");
+        scanf(" %c", &c);
+        
+        switch(c)
+        {
+            case 'q':
+            break;
+            
+            case 'n':
+            int number = nrWords(dict);
+            printf("The dictionary contains %i words\n", number);
+            break;
+            
+            case 'a':
+            printf("Word? ");
+            scanf(" %s", word);
+            addWord(dict, word);
+            break;
+            
+            case 'p':
+            printDict(dict);
+            break;
+            
+            case 'f':
+            printf("Word? ");
+            scanf(" %s", word);
+            int index = findWord(dict, word);
+            printf("The index of \"%s\" is %i\n", word, index);
+            break;
+            
+            case 'r':
+            printf("Word? ");
+            scanf(" %s", word);
+            removeWord(dict, word);
+            break;
+            
+            case 's':
+            printf("First word? ");
+            scanf(" %s", word);
+            printf("Second word? ");
+            scanf(" %s", word2);
+            swapWords(dict, word, word2);
+            break;
+            
+            case 'l':
+            int longest = longestWord(dict, nrWords(dict));
+            if (longest >= 0)
+            {
+                printf("The longest word is \"%s\" at index %i\n", dict[longest], longest);
+            }
+            break;
+            
+            default:
+            printf("Unknown command '%c'\n", c);
+            break;
+        }
+    }
+    while (c != 'q');
+    for (int i=0; i<MAXWORDS; i++)
+    {
+        if (dict[i] != NULL)
+        {
+            free(dict[i]);
+        }
+    }
+    printf("Bye!\n");
+}
