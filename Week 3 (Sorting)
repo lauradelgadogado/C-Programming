@@ -1,4 +1,5 @@
-# EXERCISE 3 - SORTING
+PROGRAMMING LAB - SORTING
+%%%%%%%%%%%%%%%%%%%%%%%%%
 
 #include <stdio.h>
 #define SIZE 10
