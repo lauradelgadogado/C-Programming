@@ -1,3 +1,24 @@
+EXERCISE 1.6 - READ TILL SPECIAL CHARACTER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+#include <stdio.h>
+
+int main(void)
+{
+    int counter = 0;            // you need a variable (integer) to keep count
+    char c;                     // you need another variable (character) to be able to 'scan' / 'read' the input
+    
+    do
+    {
+        scanf(" %c", &c);
+        counter++;
+    }
+    while (c != '#');
+    printf("%i\n", counter-1);      // you -1 from counter to not include the '#'
+    
+}
+
+
 PROGRAMMING LAB - VENDING MACHINE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
