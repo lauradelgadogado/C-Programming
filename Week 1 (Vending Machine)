@@ -1,6 +1,7 @@
-# EXERCISE 1 - VENDING MACHINE
+PROGRAMMING LAB - VENDING MACHINE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-// FIRST ATTEMPT
+%%% FIRST ATTEMPT %%%
 
 #include <stdio.h>
 
@@ -98,7 +99,7 @@ int main(void)
 }
 
 
-// SECOND ATTEMPT
+%%% SECOND ATTEMPT %%%
 
 #include <stdio.h>
 
