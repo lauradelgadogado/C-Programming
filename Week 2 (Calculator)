@@ -1,3 +1,35 @@
+EXERCISE 1.13 - USE FUNCTIONS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+#include <stdio.h>
+
+float fahrenheit(float c)
+{
+    return c * (9.0/5.0) + 32.0;
+}
+
+void main(void)
+{
+    float fahr, celsius;
+    float lower, upper, step;
+    
+    lower = 0;      /* lower limit of temperatuire scale */
+    upper = 300;    /* upper limit */
+    step = 20;      /* step size */
+    
+    celsius = lower;
+    
+    printf("Celsius Fahrenheit\n");
+    
+    while (celsius <= upper) {
+        fahr = fahrenheit(celsius);
+        printf("%7.1f %10.1f\n", celsius, fahr);
+        celsius = celsius + step;
+    }
+
+}
+
+
 PROGRAMMING LAB - CALCULATOR
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
