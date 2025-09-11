@@ -33,6 +33,7 @@ void main(void)
 PROGRAMMING LAB - CALCULATOR
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%% FIRST ATTEMPT %%%
 #include <stdio.h>
 
 float absolute(int result)
@@ -139,5 +140,121 @@ void main (void)
             break;
         }
     } while (oper != '=');
+    printf("Result = %.2f\n", result);
+}
+
+
+%%% SECOND ATTEMPT %%%
+#include <stdio.h>
+
+float absolute(float a)
+{
+    if(a >= 0)
+    {
+        return a;
+    }
+    else if(a < 0)
+    {
+        return a*(-1);
+    }
+}
+
+
+int rounding(float a)
+{
+    if(a >= 0)
+    {
+        return a + 0.5;
+    }
+    else if(a < 0)
+    {
+        return a - 0.5;
+    }
+}
+
+
+float power(float x, int y)
+{
+    float temp = 1;
+    if(y == 0)
+    {
+        return 1;
+    }
+    
+    for(int i=0; i<y; i++)
+    {
+        temp = x*temp;
+        //printf("x = %f and temp = %f\n", x, temp);
+    }
+    return temp;
+}
+
+void main(void)
+{
+    char cmd;
+    float result = 0;
+    int value;
+    
+    printf("** Calculator **\n");
+    
+    do
+    {
+        printf("Operation? ");
+        scanf(" %c", &cmd);
+        
+        switch(cmd)
+        {
+            case '+':
+            printf("Value? ");
+            scanf(" %i", &value);
+            printf("Input: %i\n", value);
+            result = result + value;
+            printf("Result = %.2f\n", result);
+            break;
+            
+            case '-':
+            printf("Value? ");
+            scanf(" %i", &value);
+            printf("Input: %i\n", value);
+            result = result - value;
+            printf("Result = %.2f\n", result);
+            break;
+            
+            case '*':
+            printf("Value? ");
+            scanf(" %i", &value);
+            printf("Input: %i\n", value);
+            result = result * value;
+            printf("Result = %.2f\n", result);
+            break;
+            
+            case '/':
+            printf("Value? ");
+            scanf(" %i", &value);
+            printf("Input: %i\n", value);
+            result = result / value;
+            printf("Result = %.2f\n", result);
+            break;
+            
+            case 'a':
+            result = absolute(result);
+            printf("Result = %.2f\n", result);
+            break;
+            
+            case 'r':
+            result = rounding(result);
+            printf("Result = %.2f\n", result);
+            break;
+            
+            case 'p':
+            printf("Value? ");
+            scanf(" %i", &value);
+            printf("Input: %i\n", value);
+            result = power(result, value);
+            printf("Result = %.2f\n", result);
+            break;
+            
+        }
+    } while(cmd != '=');
     printf("Result = %.2f\n", result);
 }
