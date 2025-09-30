@@ -1,3 +1,40 @@
+EXERCISE - BINARY TO DECIMAL CONVERSION
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+?
+
+
+EXERCISE - REVERSE CHARACTERS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+#include <stdio.h>
+#define SIZE 50
+
+void main(void)
+{
+    char input[SIZE];               // Initialize the array with length SIZE (16)
+    char c;
+    int j, i;
+
+    for (i=0; i<SIZE; i++)          // Create a loop that will read each character of the input and put it into the array 'input'
+    {
+        scanf("%c", &c);            // Scans each character, don't have a space before %c so that it doesn't skip whitespaces
+        if (c == '#')
+        {
+            break;                  // Stop reading the input once it has reached/read '#'
+        }
+        input[i] = c;               // Input the character into the array 'input'
+    }
+    
+    j = i;                          // Make j = i (the length of the user's input)
+    
+    for (i=j-1; i>=0; i--)          // Create a loop that starts at the length of the input and decrements to 0
+    {
+        printf("%c", input[i]);     // Prints each character in reverse order
+    }
+    printf("\n");                   // Starts a newline once the reverse string is printed
+}
+
 PROGRAMMING LAB - SORTING
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
