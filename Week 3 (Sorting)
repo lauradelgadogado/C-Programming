@@ -1,7 +1,33 @@
 EXERCISE - BINARY TO DECIMAL CONVERSION
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-?
+#include <stdio.h>
+
+int read_binary_value()
+{
+    int i, bit, value = 0;
+    char bit_array[16];
+    
+    scanf(" %16s", bit_array);                      // Read the 16 bit input
+    
+    for (i=0; i<16; i++)                            // Loop that calculates the value for each bit in decimal
+    {
+        value = value * 2 + (bit_array[i] - '0');
+        //printf("Value = %i and bit_array = %i in index %i \n", value, bit_array[i], i);
+        if (i == 0 && bit_array[0] == '1')
+            value = -value;
+    }
+    return value;
+}
+
+void main(void)
+{
+    int value;
+
+    printf("Enter binary number: ");
+    value = read_binary_value();
+    printf("Value: %d\n", value);
+}
 
 
 EXERCISE - REVERSE CHARACTERS
@@ -34,6 +60,7 @@ void main(void)
     }
     printf("\n");                   // Starts a newline once the reverse string is printed
 }
+
 
 PROGRAMMING LAB - SORTING
 %%%%%%%%%%%%%%%%%%%%%%%%%
