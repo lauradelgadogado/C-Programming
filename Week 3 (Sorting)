@@ -61,6 +61,29 @@ void main(void)
     printf("\n");                   // Starts a newline once the reverse string is printed
 }
 
+ALT CODE:
+#include <stdio.h>
+#define SIZE 50
+
+int main(void)
+{
+    char sequence[SIZE];
+    char c;
+    int j, i = 0;
+    
+    do                              // Use a 'do' loop instead
+    {
+        scanf("%c", &c);
+        sequence[i++] = c;          // Increase the index in the array
+    } while(c != '#' && i<SIZE);    // Keep doing the loop as long as the input is not '#' and the index in within the SIZE
+    
+    for (int j=i-1; j>=0; j--)
+    {
+        printf("%c", sequence[j]);
+    }
+}
+
+
 
 PROGRAMMING LAB - SORTING
 %%%%%%%%%%%%%%%%%%%%%%%%%
