@@ -61,7 +61,8 @@ void main(void)
     printf("\n");                   // Starts a newline once the reverse string is printed
 }
 
-ALT CODE:
+%%% ALT CODE %%%
+
 #include <stdio.h>
 #define SIZE 50
 
@@ -82,7 +83,6 @@ int main(void)
         printf("%c", sequence[j]);
     }
 }
-
 
 
 PROGRAMMING LAB - SORTING
