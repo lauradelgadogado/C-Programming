@@ -1,3 +1,63 @@
+EXERCISE - UPPER CASE TO LOWER CASE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+    char str[100];
+    
+    scanf(" %[^\n]s", str);
+    
+    for (int i=0; str[i] != '\0'; i++)
+    {
+        if (str[i] >= 'A' && str[i] <= 'Z')
+        {
+            str[i] = str[i] + 32;
+        }
+    }
+    
+    printf("Output: %s\n", str);
+}
+
+
+EXERCISE - DELETE CHARACTERS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#include <stdio.h>
+#include <string.h>
+
+void squeeze(char s1[], char s2[])
+{
+    for (int j=0; j < strlen(s2); j++)       // Loop that goes through each character in s2
+    {
+        for (int i=0; i < strlen(s1); i++)       // Loop that goes through each character in s1
+        {
+            if (s1[i] == s2[j])             // If a character in s1 matches a character in s2
+            {
+                for (int k=i; k < strlen(s1); k++)       // Loop that starts from the point where there is a match
+                {
+                    s1[k] = s1[k+1];        // Move the rest of the array one position forward
+                }
+                i--;                        // After the shift, recheck that the new i doesn't match any characters in s2
+            }
+        }
+    }
+}
+
+
+void main(void)
+{
+    char s1[100];
+    char s2[100];
+    scanf(" %[^\n]s", s1);
+    scanf(" %[^\n]s", s2);
+    
+    squeeze(s1, s2);
+    
+    printf("%s\n", s1);
+}
+
+
 PROGRAMMING LAB 4 - DOUBLE DUTCH
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
