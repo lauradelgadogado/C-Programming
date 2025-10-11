@@ -1,5 +1,5 @@
-EXERCISE - UPPER CASE TO LOWER CASE
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+EXERCISE 4.1 - UPPER CASE TO LOWER CASE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #include <stdio.h>
 #include <string.h>
 
@@ -21,8 +21,8 @@ int main(void)
 }
 
 
-EXERCISE - DELETE CHARACTERS
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+EXERCISE 4.2 - DELETE CHARACTERS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #include <stdio.h>
 #include <string.h>
 
