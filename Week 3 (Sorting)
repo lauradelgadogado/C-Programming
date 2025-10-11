@@ -1,4 +1,4 @@
-EXERCISE - BINARY TO DECIMAL CONVERSION
+EXERCISE 3.1 - BINARY TO DECIMAL CONVERSION
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 #include <stdio.h>
@@ -30,7 +30,7 @@ void main(void)
 }
 
 
-EXERCISE - REVERSE CHARACTERS
+EXERCISE 3.2 - REVERSE CHARACTERS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 #include <stdio.h>
