@@ -6,18 +6,19 @@ EXERICSE 5.1 - FREQUENCY OF CHARACTERS
 
 void CharacterOccurrence(char sentence[])
 {
-    int counter[] = {0};
+    int counter[256] = {0};     // Integer array for each possible ASCII character value
     
-    for (int i=0; sentence[i] != '\0'; i++)
+    for (int i=0; sentence[i] != '\0'; i++)     // Loop that reads each character in 'sentence' array
     {
-        counter[(unsigned char)sentence[i]]++;
+        char c = sentence[i];                   // Stores each character in c
+        counter[c]++;                           // Increase its count in the 'counter' array by 1
     }
     
     for (int i=0; i < 256; i++)
     {
-        if (counter[i] > 0)
+        if (counter[i] > 0)                                 // Only if the character is counted at least once,
         {
-            printf("'%c' (%d): %d\n", i, i, counter[i]);
+            printf("'%c' (%d): %d\n", i, i, counter[i]);    // do we print its occurence and ASCII value
         }
     }
 }
@@ -25,7 +26,6 @@ void CharacterOccurrence(char sentence[])
 void main(void)
 {
     char sentence[2048];
-
     printf("Input: ");
     scanf(" %[^\n]s", sentence);
     CharacterOccurrence(sentence);
