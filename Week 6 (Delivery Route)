@@ -1,3 +1,32 @@
+EXERCISE 6.1 - REMOVE NON-ALPHABET CHARACTERS IN A STRING
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+#include <stdio.h>
+#include <string.h>
+
+void main(void) 
+{
+    char line[1024];
+    int j=0;
+
+    // Read line from input   
+    printf("Enter a string: ");
+    scanf(" %[^\n]s", line);
+
+    // Put your own code here
+    for (int i=0; i<strlen(line); i++)
+    {
+        if ((line[i] >= 'A' && line[i] <= 'Z') || (line[i] >= 'a' && line[i] <= 'z'))
+        {
+            line[j++] = line[i];
+        }
+    }
+    line[j] = '\0';
+    // Put resulting line on the output
+    printf("Output String: %s\n", line);
+}
+
+
 EXERCISE 6.2 - DAYS BETWEEN DATES
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
